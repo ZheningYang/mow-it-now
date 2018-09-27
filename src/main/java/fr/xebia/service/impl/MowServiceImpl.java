@@ -2,6 +2,8 @@ package fr.xebia.service.impl;
 
 import fr.xebia.domain.*;
 import fr.xebia.service.MowService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,24 +13,30 @@ import static fr.xebia.util.FileReaderUtil.readStringFromFile;
 
 public class MowServiceImpl implements MowService {
 
-    private final static String INSTRUCTION = "/fr/xebia/data.mow";
+    private static final Logger LOGGER = LoggerFactory.getLogger(MowServiceImpl.class);
 
     @Override
     public List<Mower> initMowers(String instructionPath) {
-        String instruction = readStringFromFile(INSTRUCTION);
+        LOGGER.info("Start reading instructions for mowers");
+        String instruction = readStringFromFile(instructionPath);
         String[] instructions = instruction.split("\n");
+        LOGGER.info("Retrieving lawn information...");
         String[] lawnInfo = instructions[0].split(" ");
 
+        LOGGER.info("Creating lawn...");
         Lawn lawn = new Lawn(Integer.valueOf(lawnInfo[0]), Integer.valueOf(lawnInfo[1]));
 
         List<Mower> mowers = new ArrayList<>();
 
         int nbMowers = (instructions.length - 1) / 2;
 
-        for (int i = 1; i <= nbMowers; i += 2) {
+        for (int i = 1; i <= nbMowers * 2; i += 2) {
+            LOGGER.info("Retrieving mower n° {} information...", i/2);
             String[] MowerInfo = instructions[i].split(" ");
+            LOGGER.info("Creating mower init position...");
             Position position = new Position(Integer.valueOf(MowerInfo[0]), Integer.valueOf(MowerInfo[1]));
 
+            LOGGER.info("Creating mower orders...");
             List<Character> orderInfo = instructions[i + 1].chars().mapToObj(e -> (char) e).collect(Collectors.toList());
             List<Order> orders = new ArrayList<>();
             for (Character c : orderInfo) {

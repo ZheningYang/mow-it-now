@@ -20,6 +20,11 @@ public enum Direction {
         this.label = label;
     }
 
+    /**
+     * Gets index.
+     *
+     * @return the index
+     */
     public int getIndex() {
         return index;
     }

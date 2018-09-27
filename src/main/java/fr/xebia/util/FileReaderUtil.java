@@ -8,10 +8,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * The type File reader util.
+ */
 public class FileReaderUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileReaderUtil.class);
 
+    /**
+     * Read string from file string.
+     *
+     * @param filePath the file path
+     * @return the string
+     */
     public static String readStringFromFile(String filePath) {
         InputStream is = FileReaderUtil.class.getResourceAsStream(filePath);
         return readFromInputStream(is);
