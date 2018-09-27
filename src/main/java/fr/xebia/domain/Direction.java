@@ -8,25 +8,20 @@ public enum Direction {
      * directions: north, east, south, west.
      */
     N(0, "North"),
-    E(90, "East"),
-    S(180, "South"),
-    W(270, "West");
+    E(1, "East"),
+    S(2, "South"),
+    W(3, "West");
 
-    private final int degrees;
+    private final int index;
     private final String label;
 
-    Direction(int degrees, String label) {
-        this.degrees = degrees;
+    Direction(int index, String label) {
+        this.index = index;
         this.label = label;
     }
 
-    /**
-     * Gets degrees.
-     *
-     * @return the degrees
-     */
-    public int getDegrees() {
-        return degrees;
+    public int getIndex() {
+        return index;
     }
 
     /**

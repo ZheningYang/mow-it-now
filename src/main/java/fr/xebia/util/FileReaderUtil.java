@@ -1,5 +1,8 @@
 package fr.xebia.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,20 +10,23 @@ import java.io.InputStreamReader;
 
 public class FileReaderUtil {
 
-    public String readStringFromFile(String filePath) throws IOException{
-        Class clazz = this.getClass();
-        InputStream is = clazz.getResourceAsStream(filePath);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileReaderUtil.class);
+
+    public static String readStringFromFile(String filePath) {
+        InputStream is = FileReaderUtil.class.getResourceAsStream(filePath);
         return readFromInputStream(is);
     }
 
-    private String readFromInputStream(InputStream inputStream)
-            throws IOException {
+    private static String readFromInputStream(InputStream inputStream)
+            {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");
             }
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
         }
         return sb.toString();
     }
